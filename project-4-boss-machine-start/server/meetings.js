@@ -1,6 +1,4 @@
 const express = require("express");
-const morgan = require("morgan");
-const app = require("../server");
 
 const {
   getAllFromDatabase,
@@ -8,29 +6,24 @@ const {
   createMeeting,
   addToDatabase,
 } = require("./db");
-const ideasRouter = require("./ideas");
 
-seedElements(meetings, "meetings");
 const meetingsRouter = express.Router();
-
-ideasRouter.use(morgan("short"));
 
 // Get all meetings
 meetingsRouter.get("/", (req, res, next) => {
-  res.status(200).send(getAllFromDatabase("meetings"));
+  res.send(getAllFromDatabase("meetings"));
 });
 
 // Create meetings
 meetingsRouter.post("/", (req, res, next) => {
-  const meetingToCreate = createMeeting();
-  addToDatabase("meetings", meetingToCreate);
-  res.status(200).send("Your new meeting has been successfully created!");
+  const meetingToCreate = addToDatabase("meetings", createMeeting());
+  res.status(201).send(meetingToCreate);
 });
 
 // Delete all meetings
 meetingsRouter.delete("/", (req, res, next) => {
   deleteAllFromDatabase("meetings");
-  res.status(204).send("All meetings have been successfully deleted!");
+  res.status(204).send();
 });
 
 module.exports = meetingsRouter;

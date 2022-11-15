@@ -1,8 +1,15 @@
 const checkMillionDollarIdea = (req, res, next) => {
-  if (req.query.numWeeks * req.query.weeklyRevenue) {
-    next();
+  const { numWeeks, weeklyRevenue } = req.body;
+  const totalMoney = Number(numWeeks) * Number(weeklyRevenue);
+  if (
+    !numWeeks ||
+    !weeklyRevenue ||
+    isNaN(totalMoney) ||
+    totalMoney < 1000000
+  ) {
+    res.status(400).send();
   } else {
-    res.send("Not a million dollar idea!");
+    next();
   }
 };
 

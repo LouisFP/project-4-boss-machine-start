@@ -1,12 +1,13 @@
 const express = require("express");
-const app = require("../server");
 const apiRouter = express.Router();
-const minionsRouter = require("./minions.js");
-const ideasRouter = require("./ideas");
-const meetingsRouter = require("./meetings");
 
-app.use("/minions", minionsRouter);
-app.use("/ideas", ideasRouter);
-app.use("/meetings", meetingsRouter);
+const minionsRouter = require("./minions.js");
+apiRouter.use("/minions", minionsRouter);
+
+const ideasRouter = require("./ideas");
+apiRouter.use("/ideas", ideasRouter);
+
+const meetingsRouter = require("./meetings");
+apiRouter.use("/meetings", meetingsRouter);
 
 module.exports = apiRouter;
